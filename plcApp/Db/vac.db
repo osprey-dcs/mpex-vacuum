@@ -1,0 +1,1198 @@
+record ( bo, "VAC_DUMPTRAIN:RP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:RP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_DUMPTRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:TMP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:TMP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_DUMPTRAIN:PMP:Calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:SGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:SGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DUMPTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:PGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:PGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DUMPTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:RGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:RGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DUMPTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:LGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:LGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DUMPTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_DUMPTRAIN:FGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DUMPTRAIN:FGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DUMPTRAIN:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_DUMPTRAIN:CCG1:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_DUMPTRAIN:CCG2:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_DUMPTRAIN:PG:P_Ind" ) {
+    # field ( INP, "VAC_DUMPTRAIN:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "" )
+}
+record ( calcout, "VAC_DUMPTRAIN:VLV:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_DUMPTRAIN:PGV:Opn_Sts CPP" )
+    field ( INPB, "VAC_DUMPTRAIN:RGV:Opn_Sts CPP" )
+    field ( INPC, "VAC_DUMPTRAIN:FGV:Opn_Sts CPP" )
+    field ( INPD, "VAC_DUMPTRAIN:LGV:Opn_Sts CPP" )
+    field ( CALC, "(A * 2**3) + (B * 2**2) + (C * 2**1) + (D * 2**0)" )
+    field ( OUT, "VAC_DUMPTRAIN:VLV:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_DUMPTRAIN:VLV:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 15 ) # Default value to undefined state: 15
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Closed" ) 
+
+    field ( ONVL, "6" )
+    field ( ONST, "Roughing" ) # RGV + FGV
+
+    field ( TWVL, "10" )
+    field ( TWST, "Turbopumping" ) # PGV + FGV
+
+    field ( THVL, "11" )
+    field ( THST, "Turbopumping - Sweeping" ) # PGV + FGV + LGV
+
+    field ( FRVL, "1" )
+    field ( FRST, "Purge Turbopump" ) # LGV
+
+    # WARNING STATES #
+    field ( FVVL, "7" )
+    field ( FVST, "Roughing - Warning" ) # RGV + FGV + LGV
+
+    field ( SXVL, "9" )
+    field ( SXST, "Turbopumping - Warning" ) # PGV + LGV
+
+    field ( SVVL, "8" )
+    field ( SVST, "Turbopumping - Warning" ) # PGV
+
+    field ( EIVL, "12" )
+    field ( EIST, "Warning" ) # PGV + RGV
+
+    field ( NIVL, "14" )
+    field ( NIST, "Warning" ) # PGV + RGV + LGV
+
+    field ( TEVL, "15" )
+    field ( TEST, "Warning" ) # PGV + RGV + FGV + LGV
+
+    # UNDEFINED STATES #
+    field ( ELVL, "2" )
+    field ( ELST, "Undefined" ) # FGV
+
+    field ( TVVL, "3" )
+    field ( TVST, "Undefined" ) # FGV + LGV
+
+    field ( TTVL, "4" )
+    field ( TTST, "Undefined" ) # RGV
+
+    field ( FTVL, "5" )
+    field ( FTST, "Undefined" ) # RGV + LGV
+
+    field ( FFVL, "13" )
+    field ( FFST, "Undefined" ) # PGV + RGV + LGV
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_DUMPTRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_DUMPTRAIN:PMP:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_DUMPTRAIN:RP:On_Sts CPP" )
+    field ( INPB, "VAC_DUMPTRAIN:TMP:On_Sts CPP" )
+    field ( CALC, "(A * 2**1) + (B * 2**0)" )
+    field ( OUT, "VAC_DUMPTRAIN:PMP:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_DUMPTRAIN:PMP:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 4 )
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Off" )
+
+    field ( ONVL, "2" )
+    field ( ONST, "Roughing" )
+
+    field ( TWVL, "3" )
+    field ( TWST, "Turbopumping" )
+
+    # WARNING STATES #
+    field ( THVL, "1" )
+    field ( THST, "Turbopumping - Warning" ) # Turbopumping w/o Backing Pump
+
+    # UNDEFINED STATES #
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_DUMPTRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_DUMPTRAIN:TRAIN:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_DUMPTRAIN:PMP:Sts CPP" )
+    field ( INPB, "VAC_DUMPTRAIN:VLV:Sts CPP" )
+    # If within valid state range for Pmp and Vlv, then return unique value
+    ## Else if within warning range for either, then return warning value
+    field ( CALC, "(A<3 && B<5) ? ((A*4)+B) : ((B>4 && B<11) || A>2 ? 13 : 14 )" ) # Create unique values for output
+    field ( OUT, "VAC_DUMPTRAIN:TRAIN:Sts.VAL PP" )
+}
+
+record ( mbbi, "VAC_DUMPTRAIN:TRAIN:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( DESC, "Turbo train status" )
+    field ( VAL, 14)
+    field ( PINI, "RUN" )
+    
+    field ( ZRVL, "0" )
+    field ( ZRST, "Pmp Off/ Vlv Closed" )
+
+    field ( ONVL, "1" )
+    field ( ONST, "Undefined" )
+
+    field ( TWVL, "2" )
+    field ( TWST, "Undefined" )
+
+    field ( THVL, "3" )
+    field ( THST, "Undefined" )
+
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( FVVL, "5" )
+    field ( FVST, "Roughing" )
+
+    field ( SXVL, "6" )
+    field ( SXST, "Undefined" )
+
+    field ( SVVL, "7" )
+    field ( SVST, "Undefined" )
+
+    field ( EIVL, "8" ) 
+    field ( EIST, "Undefined" )
+
+    field ( NIVL, "9" ) 
+    field ( NIST, "Undefined" )
+
+    field ( TEVL, "10" )
+    field ( TEST, "Turbopumping" )
+
+    field ( ELVL, "11" )
+    field ( ELST, "Turbopumping - Sweeping" )
+    
+    field ( TVVL, "12" )
+    field ( TVST, "Undefined" )
+
+    field ( TTVL, "13" )
+    field ( TTST, "Warning" )
+
+    field ( FTVL, "14" )
+    field ( FTST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+}
+record ( bo, "VAC_ECHTRAIN:RP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_ECHTRAIN:RP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_ECHTRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:TMP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_ECHTRAIN:TMP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_ECHTRAIN:PMP:Calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:SGV1:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:SGV1:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:SGV2:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:SGV2:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:PGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:PGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:LGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:LGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:RGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:RGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_ECHTRAIN:FGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_ECHTRAIN:FGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_ECHTRAIN:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_ECHTRAIN:CCG1:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_ECHTRAIN:CCG2:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_ECHTRAIN:PG:P_Ind" ) {
+    # field ( INP, "VAC_ECHTRAIN:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "" )
+}
+record ( calcout, "VAC_ECHTRAIN:VLV:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_ECHTRAIN:PGV:Opn_Sts CPP" )
+    field ( INPB, "VAC_ECHTRAIN:RGV:Opn_Sts CPP" )
+    field ( INPC, "VAC_ECHTRAIN:FGV:Opn_Sts CPP" )
+    field ( INPD, "VAC_ECHTRAIN:LGV:Opn_Sts CPP" )
+    field ( CALC, "(A * 2**3) + (B * 2**2) + (C * 2**1) + (D * 2**0)" )
+    field ( OUT, "VAC_ECHTRAIN:VLV:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_ECHTRAIN:VLV:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 15 ) # Default value to undefined state: 15
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Closed" ) 
+
+    field ( ONVL, "6" )
+    field ( ONST, "Roughing" ) # RGV + FGV
+
+    field ( TWVL, "10" )
+    field ( TWST, "Turbopumping" ) # PGV + FGV
+
+    field ( THVL, "11" )
+    field ( THST, "Turbopumping - Sweeping" ) # PGV + FGV + LGV
+
+    field ( FRVL, "1" )
+    field ( FRST, "Purge Turbopump" ) # LGV
+
+    # WARNING STATES #
+    field ( FVVL, "7" )
+    field ( FVST, "Roughing - Warning" ) # RGV + FGV + LGV
+
+    field ( SXVL, "9" )
+    field ( SXST, "Turbopumping - Warning" ) # PGV + LGV
+
+    field ( SVVL, "8" )
+    field ( SVST, "Turbopumping - Warning" ) # PGV
+
+    field ( EIVL, "12" )
+    field ( EIST, "Warning" ) # PGV + RGV
+
+    field ( NIVL, "14" )
+    field ( NIST, "Warning" ) # PGV + RGV + LGV
+
+    field ( TEVL, "15" )
+    field ( TEST, "Warning" ) # PGV + RGV + FGV + LGV
+
+    # UNDEFINED STATES #
+    field ( ELVL, "2" )
+    field ( ELST, "Undefined" ) # FGV
+
+    field ( TVVL, "3" )
+    field ( TVST, "Undefined" ) # FGV + LGV
+
+    field ( TTVL, "4" )
+    field ( TTST, "Undefined" ) # RGV
+
+    field ( FTVL, "5" )
+    field ( FTST, "Undefined" ) # RGV + LGV
+
+    field ( FFVL, "13" )
+    field ( FFST, "Undefined" ) # PGV + RGV + LGV
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_ECHTRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_ECHTRAIN:PMP:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_ECHTRAIN:RP:On_Sts CPP" )
+    field ( INPB, "VAC_ECHTRAIN:TMP:On_Sts CPP" )
+    field ( CALC, "(A * 2**1) + (B * 2**0)" )
+    field ( OUT, "VAC_ECHTRAIN:PMP:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_ECHTRAIN:PMP:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 4 )
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Off" )
+
+    field ( ONVL, "2" )
+    field ( ONST, "Roughing" )
+
+    field ( TWVL, "3" )
+    field ( TWST, "Turbopumping" )
+
+    # WARNING STATES #
+    field ( THVL, "1" )
+    field ( THST, "Turbopumping - Warning" ) # Turbopumping w/o Backing Pump
+
+    # UNDEFINED STATES #
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_ECHTRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_ECHTRAIN:TRAIN:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_ECHTRAIN:PMP:Sts CPP" )
+    field ( INPB, "VAC_ECHTRAIN:VLV:Sts CPP" )
+    # If within valid state range for Pmp and Vlv, then return unique value
+    ## Else if within warning range for either, then return warning value
+    field ( CALC, "(A<3 && B<5) ? ((A*4)+B) : ((B>4 && B<11) || A>2 ? 13 : 14 )" ) # Create unique values for output
+    field ( OUT, "VAC_ECHTRAIN:TRAIN:Sts.VAL PP" )
+}
+
+record ( mbbi, "VAC_ECHTRAIN:TRAIN:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( DESC, "Turbo train status" )
+    field ( VAL, 14)
+    field ( PINI, "RUN" )
+    
+    field ( ZRVL, "0" )
+    field ( ZRST, "Pmp Off/ Vlv Closed" )
+
+    field ( ONVL, "1" )
+    field ( ONST, "Undefined" )
+
+    field ( TWVL, "2" )
+    field ( TWST, "Undefined" )
+
+    field ( THVL, "3" )
+    field ( THST, "Undefined" )
+
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( FVVL, "5" )
+    field ( FVST, "Roughing" )
+
+    field ( SXVL, "6" )
+    field ( SXST, "Undefined" )
+
+    field ( SVVL, "7" )
+    field ( SVST, "Undefined" )
+
+    field ( EIVL, "8" ) 
+    field ( EIST, "Undefined" )
+
+    field ( NIVL, "9" ) 
+    field ( NIST, "Undefined" )
+
+    field ( TEVL, "10" )
+    field ( TEST, "Turbopumping" )
+
+    field ( ELVL, "11" )
+    field ( ELST, "Turbopumping - Sweeping" )
+    
+    field ( TVVL, "12" )
+    field ( TVST, "Undefined" )
+
+    field ( TTVL, "13" )
+    field ( TTST, "Warning" )
+
+    field ( FTVL, "14" )
+    field ( FTST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+}
+record ( ai, "VAC_PMI:BG:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+}
+record ( bo, "VAC_MPC:SGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_MPC:SGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_MPC:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_MPC:CCG1:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Dump tank")
+}
+record ( ai, "VAC_MPC:CCG2:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Downstream Diagnostic Chamber")
+}
+record ( ai, "VAC_MPC:CCG3:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "ICH")
+}
+record ( ai, "VAC_MPC:PG1:P_Ind" ) {
+    # field ( INP, "VAC_MPC:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Upstream Diagnostic Chamber" )
+}
+record ( bo, "VAC_PMITRAIN:RP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_PMITRAIN:RP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_PMITRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:TMP:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_PMITRAIN:TMP:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_PMITRAIN:PMP:Calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:SGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:SGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:PGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:PGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:LGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:LGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:RGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:RGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:FGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:FGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:SGV_USAC:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:SGV_USAC:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMITRAIN:SGV_DSAC:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMITRAIN:SGV_DSAC:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMITRAIN:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_PMITRAIN:CCG1:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_PMITRAIN:CCG2:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_PMITRAIN:PG:P_Ind" ) {
+    # field ( INP, "VAC_PMITRAIN:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "" )
+}
+record ( calcout, "VAC_PMITRAIN:VLV:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_PMITRAIN:PGV:Opn_Sts CPP" )
+    field ( INPB, "VAC_PMITRAIN:RGV:Opn_Sts CPP" )
+    field ( INPC, "VAC_PMITRAIN:FGV:Opn_Sts CPP" )
+    field ( INPD, "VAC_PMITRAIN:LGV:Opn_Sts CPP" )
+    field ( CALC, "(A * 2**3) + (B * 2**2) + (C * 2**1) + (D * 2**0)" )
+    field ( OUT, "VAC_PMITRAIN:VLV:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_PMITRAIN:VLV:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 15 ) # Default value to undefined state: 15
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Closed" ) 
+
+    field ( ONVL, "6" )
+    field ( ONST, "Roughing" ) # RGV + FGV
+
+    field ( TWVL, "10" )
+    field ( TWST, "Turbopumping" ) # PGV + FGV
+
+    field ( THVL, "11" )
+    field ( THST, "Turbopumping - Sweeping" ) # PGV + FGV + LGV
+
+    field ( FRVL, "1" )
+    field ( FRST, "Purge Turbopump" ) # LGV
+
+    # WARNING STATES #
+    field ( FVVL, "7" )
+    field ( FVST, "Roughing - Warning" ) # RGV + FGV + LGV
+
+    field ( SXVL, "9" )
+    field ( SXST, "Turbopumping - Warning" ) # PGV + LGV
+
+    field ( SVVL, "8" )
+    field ( SVST, "Turbopumping - Warning" ) # PGV
+
+    field ( EIVL, "12" )
+    field ( EIST, "Warning" ) # PGV + RGV
+
+    field ( NIVL, "14" )
+    field ( NIST, "Warning" ) # PGV + RGV + LGV
+
+    field ( TEVL, "15" )
+    field ( TEST, "Warning" ) # PGV + RGV + FGV + LGV
+
+    # UNDEFINED STATES #
+    field ( ELVL, "2" )
+    field ( ELST, "Undefined" ) # FGV
+
+    field ( TVVL, "3" )
+    field ( TVST, "Undefined" ) # FGV + LGV
+
+    field ( TTVL, "4" )
+    field ( TTST, "Undefined" ) # RGV
+
+    field ( FTVL, "5" )
+    field ( FTST, "Undefined" ) # RGV + LGV
+
+    field ( FFVL, "13" )
+    field ( FFST, "Undefined" ) # PGV + RGV + LGV
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_PMITRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_PMITRAIN:PMP:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_PMITRAIN:RP:On_Sts CPP" )
+    field ( INPB, "VAC_PMITRAIN:TMP:On_Sts CPP" )
+    field ( CALC, "(A * 2**1) + (B * 2**0)" )
+    field ( OUT, "VAC_PMITRAIN:PMP:Sts.RVAL PP" )
+}
+
+record ( mbbi, "VAC_PMITRAIN:PMP:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( VAL, 4 )
+    field ( DTYP, "Raw Soft Channel" )
+    field ( PINI, "RUN" )
+
+    # OKAY STATES #
+    field ( ZRVL, "0" )
+    field ( ZRST, "All Off" )
+
+    field ( ONVL, "2" )
+    field ( ONST, "Roughing" )
+
+    field ( TWVL, "3" )
+    field ( TWST, "Turbopumping" )
+
+    # WARNING STATES #
+    field ( THVL, "1" )
+    field ( THST, "Turbopumping - Warning" ) # Turbopumping w/o Backing Pump
+
+    # UNDEFINED STATES #
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+    field ( FLNK, "VAC_PMITRAIN:TRAIN:Calc.PROC PP" )
+}
+
+record ( calcout, "VAC_PMITRAIN:TRAIN:Calc" ) {
+    field ( SCAN, "Passive" )
+    field ( INPA, "VAC_PMITRAIN:PMP:Sts CPP" )
+    field ( INPB, "VAC_PMITRAIN:VLV:Sts CPP" )
+    # If within valid state range for Pmp and Vlv, then return unique value
+    ## Else if within warning range for either, then return warning value
+    field ( CALC, "(A<3 && B<5) ? ((A*4)+B) : ((B>4 && B<11) || A>2 ? 13 : 14 )" ) # Create unique values for output
+    field ( OUT, "VAC_PMITRAIN:TRAIN:Sts.VAL PP" )
+}
+
+record ( mbbi, "VAC_PMITRAIN:TRAIN:Sts" ) {
+    field ( SCAN, "Passive" )
+    field ( DESC, "Turbo train status" )
+    field ( VAL, 14)
+    field ( PINI, "RUN" )
+    
+    field ( ZRVL, "0" )
+    field ( ZRST, "Pmp Off/ Vlv Closed" )
+
+    field ( ONVL, "1" )
+    field ( ONST, "Undefined" )
+
+    field ( TWVL, "2" )
+    field ( TWST, "Undefined" )
+
+    field ( THVL, "3" )
+    field ( THST, "Undefined" )
+
+    field ( FRVL, "4" )
+    field ( FRST, "Undefined" )
+
+    field ( FVVL, "5" )
+    field ( FVST, "Roughing" )
+
+    field ( SXVL, "6" )
+    field ( SXST, "Undefined" )
+
+    field ( SVVL, "7" )
+    field ( SVST, "Undefined" )
+
+    field ( EIVL, "8" ) 
+    field ( EIST, "Undefined" )
+
+    field ( NIVL, "9" ) 
+    field ( NIST, "Undefined" )
+
+    field ( TEVL, "10" )
+    field ( TEST, "Turbopumping" )
+
+    field ( ELVL, "11" )
+    field ( ELST, "Turbopumping - Sweeping" )
+    
+    field ( TVVL, "12" )
+    field ( TVST, "Undefined" )
+
+    field ( TTVL, "13" )
+    field ( TTST, "Warning" )
+
+    field ( FTVL, "14" )
+    field ( FTST, "Undefined" )
+
+    field ( UDF, "1" ) # Mark as undefined if uninitialized
+}
+record ( ai, "VAC_PMI:BG:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+}
+record ( bo, "VAC_USAC:LGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_USAC:LGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_USAC:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_DSAC:LGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_DSAC:LGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_DSAC:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMI:SGV1:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMI:SGV1:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMI:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_PMI:SGV2:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_PMI:SGV2:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_PMI:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_USAC:CCG:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Upstream autocoupler chamber")
+}
+record ( ai, "VAC_DSAC:CCG:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Downstream autocoupler chamber")
+}
+record ( ai, "VAC_USAC:PG:P_Ind" ) {
+    # field ( INP, "VAC_USAC:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Upstream autocoupler chamber" )
+}
+record ( ai, "VAC_DSAC:PG:P_Ind" ) {
+    # field ( INP, "VAC_DSAC:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "Downstream autocoupler chamber" )
+}
+record ( ai, "VAC_PMI:BG:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+}
+record ( bo, "VAC_RTRAIN:RP1:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_RTRAIN:RP1:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_RTRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:RP2:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_RTRAIN:RP2:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_RTRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:RP3:On_Cmd" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Command Off" )
+    field ( ONAM, "Command On" )
+}
+
+record ( bi, "VAC_RTRAIN:RP3:On_Sts" ) {
+    field ( VAL, 0 )
+    field ( SCAN, "Passive" )
+    field ( ZNAM, "Pump Off" )
+    field ( ONAM, "Pump On" )
+    field ( FLNK, "VAC_RTRAIN:PMP:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:SGV:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:SGV:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:PGV1:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:PGV1:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:LGV1:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:LGV1:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:FGV1:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:FGV1:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:PGV2:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:PGV2:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:LGV2:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:LGV2:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( bo, "VAC_RTRAIN:FGV2:Opn_Cmd") {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Command Close" )
+   field ( ONAM, "Command Open" )
+}
+
+record ( bi, "VAC_RTRAIN:FGV2:Opn_Sts" ) {
+   field ( VAL, 0 )
+   field ( SCAN, "Passive" )
+   field ( ZNAM, "Closed" )
+   field ( ONAM, "Opened" )
+   field ( FLNK, "VAC_RTRAIN:VLV:calc.PROC PP" )
+}
+record ( ai, "VAC_RTRAIN:CCG1:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_RTRAIN:CCG2:P_Ind" ) {
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "")
+}
+record ( ai, "VAC_RTRAIN:PG:P_Ind" ) {
+    # field ( INP, "VAC_RTRAIN:GGE:sim PP"  ) # sim
+    field ( EGU,  "Pascal" )
+    field ( SCAN, "1 second" )
+    # field ( TPRO, "1" ) # sim
+    field ( DESC, "" )
+}
