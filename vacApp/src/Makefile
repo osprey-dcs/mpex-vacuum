@@ -8,9 +8,9 @@ include $(TOP)/configure/CONFIG
 #=============================
 # Build the IOC application
 
-PROD_IOC = plc
-# plc.dbd will be created and installed
-DBD += plc.dbd
+PROD_IOC = vac
+# vac.dbd will be created and installed
+DBD += vac.dbd
 
 Common_DBDs += base.dbd
 Common_DBDs += system.dbd
@@ -145,23 +145,23 @@ endif
 endif
 
 # Include dbd files from all support applications:
-#plc_DBD += xxx.dbd
-plc_DBD += $(Common_DBDs)
-plc_LIBS += $(Common_LIBs)
-plc_SRCS += $(Common_SRCs)
+#vac_DBD += xxx.dbd
+vac_DBD += $(Common_DBDs)
+vac_LIBS += $(Common_LIBs)
+vac_SRCS += $(Common_SRCs)
 
-# plc_registerRecordDeviceDriver.cpp derives from plc.dbd
-plc_SRCS += plc_registerRecordDeviceDriver.cpp
+# vac_registerRecordDeviceDriver.cpp derives from vac.dbd
+vac_SRCS += vac_registerRecordDeviceDriver.cpp
 
 # Build the main IOC entry point on workstation OSs.
-plc_SRCS_DEFAULT += plcMain.cpp
-plc_SRCS_vxWorks += -nil-
+vac_SRCS_DEFAULT += vacMain.cpp
+vac_SRCS_vxWorks += -nil-
 
 # Add support from base/src/vxWorks if needed
-#plc_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
+#vac_OBJS_vxWorks += $(EPICS_BASE_BIN)/vxComLibrary
 
 # Finally link to the EPICS Base libraries
-plc_LIBS += $(EPICS_BASE_IOC_LIBS)
+vac_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
