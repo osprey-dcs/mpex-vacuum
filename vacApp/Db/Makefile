@@ -7,12 +7,7 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
 #DB += xxx.db
-DB += DCS.db
-DB += FCS.db
-DB += MCS.db
-DB += PSHCS.db
-DB += VCS.db
-DB += VCS_SIM.db
+DB += vac.db
 
 ifneq ($(IOCSTATS),)
 DB_INSTALLS += $(IOCSTATS)/db/iocAdminSoft.db
