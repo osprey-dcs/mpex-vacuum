@@ -29,6 +29,7 @@
 #SNCSEQ = $(MODULES)/seq-ver
 
 # EPICS_BASE should appear last so earlier modules can override stuff:
+ASYN = /usr/local/epics/1.1.0/ubuntu-22.04/7.0.7/modules/asyn
 ETHER_IP = /usr/local/epics/1.1.0/ubuntu-22.04/7.0.7/modules/ether_ip
 RECCASTER = /usr/local/epics/1.1.0/ubuntu-22.04/7.0.7/modules/recsync
 IOCSTATS = /usr/local/epics/1.1.0/ubuntu-22.04/7.0.7/modules/iocStats
