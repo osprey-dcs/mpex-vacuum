@@ -37,7 +37,7 @@ set_savefile_path("$(AS_PATH)")
 dbLoadRecords("$(TOP)/db/reccaster.db", "P=$(PREFIX):RecSync")
 
 ## IOCSTATS db
-dbLoadRecords("$(TOP)/db/iocAdminSoft.db", "IOC=$(VAC)")
+dbLoadRecords("$(TOP)/db/iocAdminSoft.db", "IOC=$(PREFIX):STS")
 
 #Access security file to load
 #asSetFilename("${ASCF}/ics-default.acf")
